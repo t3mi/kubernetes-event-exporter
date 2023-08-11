@@ -35,11 +35,17 @@ jobs:
           images: |
             ghcr.io/${{ github.repository }}
 
-      - name: Build and push Docker images
-        uses: docker/build-push-action@v3
-        with:
-          context: .
-          push: true
-          platforms: linux/amd64,linux/arm64
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+      - run:
+          echo "Version is ${{ steps.meta.outputs.version }}"
+          echo "Version is ${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.version'] }}"
+
+      # - name: Build and push Docker images
+      #   uses: docker/build-push-action@v3
+      #   with:
+      #     context: .
+      #     push: true
+      #     platforms: linux/amd64,linux/arm64
+      #     tags: ${{ steps.meta.outputs.tags }}
+      #     labels: ${{ steps.meta.outputs.labels }}
+      #     build-args: |
+      #       VERSION=${{ steps.meta.outputs.version }}
